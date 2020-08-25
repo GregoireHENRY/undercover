@@ -3,6 +3,30 @@ import os
 import random
 
 
+class colors:
+    NC = '\033[0m'
+    BLACK = '\033[30m'
+    RED = '\033[31m'
+    GREEN = '\033[32m'
+    YELLOW = '\033[33m'
+    BLUE = '\033[34m'
+    MAGENTA = '\033[35m'
+    CYAN = '\033[36m'
+    LIGHT_GRAY = '\033[37m'
+    DARK_GRAY = '\033[90m'
+    LIGHT_RED = '\033[91m'
+    LIGHT_GREEN = '\033[92m'
+    LIGHT_YELLOW = '\033[93m'
+    LIGHT_BLUE = '\033[94m'
+    LIGHT_MAGENTA = '\033[95m'
+    BOLD = '\033[1m'
+    BOLD = '\033[2m'
+    UNDERLINE = '\033[4m'
+    BLINK = '\033[5m'
+    INVERTED = '\033[7m'
+    HIDDEN = '\033[8m'
+
+
 def create_roles_list(n_roles):
     roles = []
     for (key, value) in n_roles.items():
@@ -30,21 +54,24 @@ def error_message(error):
 
 
 def win_message(win):
+    print('%s%s%s' % (colors.BOLD, colors.BLINK, colors.LIGHT_YELLOW), end='')
     if win == 1:
-        print('Civilian win')
+        print('Civilian win!!')
     elif win == 2:
-        print('Mr White & Undercover win')
+        print('Mr White & Undercover win!!')
     elif win == 3:
-        print('Undercover wins')
+        print('Undercover wins!!')
     elif win == 4:
-        print('Mr White wins')
+        print('Mr White wins!!')
+    print(colors.NC, end='')
 
 
 def round_start_random(names, roles):
-    print('Players: ', end='')
+    print('%sPlayers%s%s' % (colors.UNDERLINE, colors.NC, colors.LIGHT_GREEN),
+          end='\n')
     for name in names:
-        print('%s ' % name, end='')
-    print()
+        print('%s' % name)
+    print(colors.NC)
     while True:
         start = random.randint(0, len(roles) - 1)
         if roles[start] != 'mrwhite':
@@ -71,10 +98,14 @@ def win_condition(win, roles):
 
 def proceed_vote(names):
     while True:
-        vote = input('Voter pour éliminter : ')
+        vote = input('%sVote to eliminate%s\n%s>%s %s' %
+                     (colors.UNDERLINE, colors.NC, colors.BLINK, colors.NC,
+                      colors.LIGHT_RED))
+        print(colors.NC, end='')
         try:
             vote = names.index(vote)
         except Exception as e:
+            print(colors.NC, end='')
             print(e, file=sys.stderr)
         else:
             break
@@ -85,19 +116,24 @@ def eliminate(roles, names, vote, word):
     win = 0
     print('%s was %s' % (names[vote], roles[vote]))
     if roles[vote] == 'mrwhite':
-        guess = input('Mr White devine le mot des civils avant de mourir : ')
+        guess = input(
+            '%sMr White guesses civilians\' word before dying%s\n%s>%s %s' %
+            (colors.UNDERLINE, colors.NC, colors.BLINK, colors.NC,
+             colors.LIGHT_MAGENTA))
+        print(colors.NC, end='')
         if guess == word:
-            win = 3
+            win = 4
     if not win:
         roles.pop(vote)
         names.pop(vote)
+    print(win)
     return win
 
 
 words = {
     'paix': 'amour',
     'escalator': 'ascenseur',
-    'frambroise': 'cerise',
+    'framboise': 'cerise',
     'oiseau': 'papillon',
     'pikachu': 'chat',
     'zoo': 'aquarium'
@@ -114,9 +150,10 @@ word = random.choice(list(words.items()))
 
 os.system('clear')
 for i in range(0, len(names)):
-    print('%s est %s.' % (names[i], roles[i]))
+    print('%s%s%s is %s%s%s.' % (colors.LIGHT_GREEN, names[i], colors.NC,
+                                 colors.LIGHT_GREEN, roles[i], colors.NC))
     if roles[i] == 'civil':
-        print('Word: %s.' % word[0])
+        print('Word: %s%s%s.' % (colors.LIGHT_MAGENTA, word[0], colors.NC))
     elif roles[i] == 'undercover':
         print('Word: %s.' % word[1])
     input()
@@ -124,6 +161,7 @@ for i in range(0, len(names)):
 
 while True:
     round_start_random(names, roles)
+    print(word)
     vote = proceed_vote(names)
     win = eliminate(roles, names, vote, word[0])
     win = win_condition(win, roles)
@@ -133,8 +171,7 @@ while True:
         break
 
 win_message(win)
-
 print()
-print(word)
-print(names)
-print(roles)
+print('%s%s%s' % (colors.LIGHT_MAGENTA, word, colors.NC))
+print('%s%s%s' % (colors.LIGHT_GREEN, names, colors.NC))
+print('%s%s%s' % (colors.LIGHT_GREEN, roles, colors.NC))
