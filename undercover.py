@@ -136,7 +136,12 @@ words = {
     'framboise': 'cerise',
     'oiseau': 'papillon',
     'pikachu': 'chat',
-    'zoo': 'aquarium'
+    'zoo': 'aquarium',
+    'dauphin': 'baleine',
+    'ail': 'oignon',
+    'plage': 'piscine',
+    'canape': 'hammac',
+    'telephone': 'ordinateur'
 }
 
 n_roles = {'civil': 3, 'undercover': 1, 'mrwhite': 1}
