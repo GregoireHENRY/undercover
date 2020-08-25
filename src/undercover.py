@@ -130,6 +130,10 @@ def eliminate(roles, names, vote, word):
     return win
 
 
+def create_words_dict(fname):
+    return {}
+
+
 words = {
     'paix': 'amour',
     'escalator': 'ascenseur',
