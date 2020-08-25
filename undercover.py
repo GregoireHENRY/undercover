@@ -155,7 +155,7 @@ for i in range(0, len(names)):
     if roles[i] == 'civil':
         print('Word: %s%s%s.' % (colors.LIGHT_MAGENTA, word[0], colors.NC))
     elif roles[i] == 'undercover':
-        print('Word: %s.' % word[1])
+        print('Word: %s%s%s.' % (colors.LIGHT_MAGENTA, word[1], colors.NC))
     input()
     os.system('clear')
 
