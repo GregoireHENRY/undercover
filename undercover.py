@@ -161,7 +161,6 @@ for i in range(0, len(names)):
 
 while True:
     round_start_random(names, roles)
-    print(word)
     vote = proceed_vote(names)
     win = eliminate(roles, names, vote, word[0])
     win = win_condition(win, roles)
