@@ -131,29 +131,22 @@ def eliminate(roles, names, vote, word):
 
 
 def create_words_dict(fname):
-    return {}
+	D = {}
+	with open(fname) as F:
+		T = F.readlines()
+	for e in T:
+		k, v = e.split()
+		D[k] = v
+	return D
 
 
-words = {
-    'paix': 'amour',
-    'escalator': 'ascenseur',
-    'framboise': 'cerise',
-    'oiseau': 'papillon',
-    'pikachu': 'chat',
-    'zoo': 'aquarium',
-    'dauphin': 'baleine',
-    'ail': 'oignon',
-    'plage': 'piscine',
-    'canape': 'hammac',
-    'telephone': 'ordinateur'
-}
+words = create_words_dict('../rsc/words.txt')
 
 n_roles = {'civil': 3, 'undercover': 1, 'mrwhite': 1}
 names = ['Gregouze', 'Loulou', 'Adri', 'Sergio', 'Fabienne']
 roles = create_roles_list(n_roles)
 
 check_error_settings(names, roles)
-
 random.shuffle(roles)
 word = random.choice(list(words.items()))
 
